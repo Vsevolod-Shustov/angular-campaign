@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" ng-app="ucApp">
+<head>
+  <meta charset="utf-8">
+  <title>Campaign</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app.css"/>
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/ngStorage.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body ng-controller="GlobalCtrl">
+  <div id="map-wrapper">
+  <div id="map" data-zoom="1">
+    <!--<div class="map-row" ng-repeat="row in map">
+      <div class="hex {{hex.terrain}}" ng-repeat="hex in row"></div>
+    </div>-->
+    <div id="hexes-anchor">
+      <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap">
+        {{hex.x}} {{hex.y}} 
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <div id="debug"></div>
+  
+  <div id="side-menu" ng-include="'partials/add-hexes-menu.html'"></div>  
+
+
+  
+</body>
+</html>

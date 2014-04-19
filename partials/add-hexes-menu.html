@@ -1,0 +1,41 @@
+<form class="form-horizontal" id="add-hexes-form" role="form">
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input type="text" class="form-control" id="x-coord" placeholder="X coordinate">
+    </div>
+    <div class="col-sm-12">
+      <input type="text" class="form-control" id="y-coord" placeholder="Y coordinate">
+    </div>
+    <div class="col-sm-12">
+      <select class="form-control" id="terrain">
+        <option value="plains">Plains</option>
+        <option value="hills">Hills</option>
+        <option value="forest">Forest</option>
+        <option value="swamp">Swamp</option>
+        <option value="mountain">Mountain</option>
+      </select>
+    </div> 
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-12">
+      <button type="submit" id="add-hexes-btn" class="btn btn-primary">Add Hex</button>
+    </div>
+    <div class="col-sm-12" id="add-hexes-message"></div>
+    <div class="col-sm-12">
+      <button type="submit" id="save-map-btn" class="btn btn-success">Save Map Data</button>
+    </div>
+    <div class="col-sm-12">
+      <button type="submit" id="load-map-btn" class="btn btn-warning">Load Map</button>
+    </div>
+    <div class="col-sm-12">
+      <button type="submit" id="delete-hexes-btn" class="btn btn-danger">Delete Hex</button>
+    </div>
+    <div class="col-sm-12">
+      <button type="submit" id="clear-map-btn" class="btn btn-danger">Clear Map</button>
+    </div>
+    <div class="col-sm-12">
+      <button type="submit" id="clear-save-btn" class="btn btn-danger">Clear Save Data</button>
+    </div>
+  </div>
+</form>

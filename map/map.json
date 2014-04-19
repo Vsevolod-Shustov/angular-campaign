@@ -1,0 +1,38 @@
+[
+  [
+    {
+      "terrain":"plains",
+      "note":"first hex"
+    },
+    {
+      "terrain":"plains"
+    },
+    {
+      "terrain":"plains"
+    }
+  ],
+    
+  [
+    {
+      "terrain":"plains"
+    },
+    {
+      "terrain":"plains"
+    },
+    {
+      "terrain":"plains"
+    }
+  ],
+  
+  [
+    {
+      "terrain":"plains"
+    },
+    {
+      "terrain":"plains"
+    },
+    {
+      "terrain":"plains"
+    }
+  ]
+]
