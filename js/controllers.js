@@ -12,7 +12,8 @@ ucControllers.controller('GlobalCtrl', function(
   $scope.globalMap = {};
   
   //hex manipulation
-  $scope.$on('$includeContentLoaded', function() {
+  //load map
+  /*$scope.$on('$includeContentLoaded', function() {
     function isInt(value) {
       return !isNaN(value) && parseInt(value) == value;
     }
@@ -78,10 +79,10 @@ ucControllers.controller('GlobalCtrl', function(
     ae('#clear-save-btn').click(function(){
       localStorage.removeItem('globalMap');
     });
-  });
+  });*/
   
   //draw the map
-  var drawMap = function() {
+  /*var drawMap = function() {
     //variables for determining map size
     var maxX = 0;
     var maxY = 0;
@@ -144,6 +145,21 @@ ucControllers.controller('GlobalCtrl', function(
     //jQuery('#debug').append(minY+" "+ viewOffsetY +"<br>");
     //if((maxY - minY)%2!=0){viewOffsetY-=hexVerticalOffset};
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
+  };*/
+  
+  $scope.loadMap = function(){
+    $scope.globalMap = JSON.parse(localStorage['globalMap']);
+  };
+  
+  $scope.$watch('globalMap', function(){
+    console.log('globalMap changed /n');
+  });
+  
+  $scope.loadAndDrawMap = function(){
+    
+      $scope.loadMap();
+    
+    $scope.drawMap();
   };
   
   $scope.hexClick = function(x, y) {
@@ -152,20 +168,21 @@ ucControllers.controller('GlobalCtrl', function(
   };
   
   //map zoom and pan
-  $scope.$on('$includeContentLoaded', function() {
+  /*$scope.$on('$includeContentLoaded', function() {
+    jQuery('#debug').append("content loaded" + "<br>");
     jQuery('#map').bind('mousewheel', function(e){
       if(e.originalEvent.wheelDelta > 0) {
         if(jQuery(this).data('zoom') > 1) {
           jQuery(this).data('zoom', jQuery(this).data('zoom') - 1);
-          jQuery('#debug').append("zoomed in" +"<br>");
+          jQuery('#debug').append("zoomed in" + jQuery(this).data('zoom') + "<br>");
         }
       } else if(jQuery(this).data('zoom') < 3){
         jQuery(this).data('zoom', jQuery(this).data('zoom') + 1);
-        jQuery('#debug').append("zoomed out" +"<br>");
+        jQuery('#debug').append("zoomed out" + jQuery(this).data('zoom') +"<br>");
       }
       jQuery(this).removeClass('zoom1').removeClass('zoom2').removeClass('zoom3').addClass('zoom'+jQuery(this).data('zoom'));
     });
     
     jQuery('#map').draggable();
-  });
+  });*/
 });

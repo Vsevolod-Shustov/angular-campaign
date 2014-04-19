@@ -117,3 +117,13 @@
   padding:5px;
   z-index:100;
 }
+
+#top-navbar {
+  margin-top:-45px;
+  position:fixed;
+  width:100%;
+  z-index:200;
+}
+#top-navbar:hover {
+  margin-top:0;
+}
