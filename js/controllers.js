@@ -2,24 +2,23 @@ var ucControllers = angular.module('ucControllers', []);
 
 var ae = angular.element;
 
-ucControllers.controller('GlobalCtrl', function(
-  $scope,
-  $localStorage
-){
-  $scope.$storage = $localStorage;
-  
-  //dummy map data
+function isInt(value) {
+  return !isNaN(value) && parseInt(value) == value;
+}
+
+ucControllers.controller('GlobalCtrl', function($scope){
   $scope.globalMap = {};
+  
+  $scope.$on('onRepeatLast', function(scope, element, attrs){
+    $scope.drawMap();
+  });
   
   //hex manipulation
   //load map
-  /*$scope.$on('$includeContentLoaded', function() {
-    function isInt(value) {
-      return !isNaN(value) && parseInt(value) == value;
-    }
+    
     
     //add hex
-    ae('#add-hexes-btn').click(function(){
+    $scope.addHex = function() {
       if(!isInt(ae("#x-coord").val())){
         ae("#x-coord").parent().addClass('has-error');
         ae("#add-hexes-message").show().html('X should be integer');
@@ -35,14 +34,11 @@ ucControllers.controller('GlobalCtrl', function(
         hex["y"] = ae("#y-coord").val();
         hex["terrain"] = ae("#terrain").val();
         var hexToWrite = hex["x"] + " " + hex["y"];
-        $scope.$apply(function () {
-          $scope.globalMap[hexToWrite] = hex;
-        });
-        drawMap();
+        $scope.globalMap[hexToWrite] = hex;
       }
-    });
+    };
     
-    //delete hex
+    /*//delete hex
     ae('#delete-hexes-btn').click(function(){
       var hex = {};
       hex["x"] = ae("#x-coord").val();
@@ -82,7 +78,7 @@ ucControllers.controller('GlobalCtrl', function(
   });*/
   
   //draw the map
-  /*var drawMap = function() {
+  $scope.drawMap = function() {
     //variables for determining map size
     var maxX = 0;
     var maxY = 0;
@@ -103,7 +99,7 @@ ucControllers.controller('GlobalCtrl', function(
       var yPos = y*hexHeight;
       if(y>0){yPos-=hexVerticalOffset*y};
       if(y<0){yPos+=hexVerticalOffset*Math.abs(y)};
-      jQuery(this).css('top', yPos).css('left', xPos);
+      jQuery(this).css('top', yPos).css('left', xPos).css('z-index', 10);
       
       //set data to determine map size
       if(x>=0 && x>maxX){maxX = x; maxXY = y};
@@ -145,21 +141,11 @@ ucControllers.controller('GlobalCtrl', function(
     //jQuery('#debug').append(minY+" "+ viewOffsetY +"<br>");
     //if((maxY - minY)%2!=0){viewOffsetY-=hexVerticalOffset};
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
-  };*/
+  };
   
   $scope.loadMap = function(){
     $scope.globalMap = JSON.parse(localStorage['globalMap']);
-  };
-  
-  $scope.$watch('globalMap', function(){
-    console.log('globalMap changed /n');
-  });
-  
-  $scope.loadAndDrawMap = function(){
-    
-      $scope.loadMap();
-    
-    $scope.drawMap();
+    console.log($scope.globalMap);
   };
   
   $scope.hexClick = function(x, y) {

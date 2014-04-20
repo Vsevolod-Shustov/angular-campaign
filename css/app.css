@@ -4,20 +4,11 @@
 
 #map-wrapper, html {
   overflow:hidden;
-  min-height:100%;
+  min-height:500px;
 }
 #map {
   margin: 0 auto;
   position:relative;
-}
-.map-row {
-  float:left;
-  clear:left;
-  height:172px;
-  margin-top:-42px;
-}
-#map .map-row:nth-of-type(2n) {
-  margin-left:76px;
 }
 
 
@@ -28,7 +19,7 @@
   position:absolute;
   text-align:center;
   padding-top:10px;
-  z-index:10;
+  z-index:-10;
 }
 .hex.plains {
   background:url('../img/plains.png') center center no-repeat;

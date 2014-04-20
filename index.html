@@ -11,15 +11,14 @@
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/directives.js"></script>
-  <script src="js/ngStorage.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
 </head>
 <body ng-controller="GlobalCtrl">
 <!--<div id="top-navbar" ng-include="'partials/top-navbar.html'"></div>-->
 <div id="map-wrapper">
   <div id="map" data-zoom="1">
-    <div id="hexes-anchor">
-      <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap">
+    <div id="hexes-anchor" ng-model="globalMap">
+      <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap" on-last-repeat>
         {{hex.x}} {{hex.y}} 
       </div>
     </div>
@@ -29,6 +28,8 @@
 <div id="debug"></div>
 
 <div id="side-menu" ng-include="'partials/add-hexes-menu.html'"></div>
+
+<div notificationSwitch></div>
 
 <script>
 jQuery(document).ready(function(){  
