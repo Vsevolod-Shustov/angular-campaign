@@ -38,19 +38,16 @@ ucControllers.controller('GlobalCtrl', function($scope){
       }
     };
     
-    /*//delete hex
-    ae('#delete-hexes-btn').click(function(){
+    //delete hex
+    $scope.deleteHex = function(){
       var hex = {};
       hex["x"] = ae("#x-coord").val();
       hex["y"] = ae("#y-coord").val();
       var hexToDelete = hex["x"] + " " + hex["y"];
-      $scope.$apply(function () {
-        delete $scope.globalMap[hexToDelete];
-      });
-      drawMap();
-    });
+      delete $scope.globalMap[hexToDelete];
+    }
     
-    //save map
+    /*//save map
     ae('#save-map-btn').click(function(){
       localStorage['globalMap'] = JSON.stringify($scope.globalMap);
     });
