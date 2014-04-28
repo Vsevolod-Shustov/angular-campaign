@@ -18,7 +18,7 @@
 <div id="map-wrapper">
   <div id="map" data-zoom="1">
     <div id="hexes-anchor" ng-model="globalMap">
-      <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap" on-last-repeat>
+      <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap" on-last-repeat map-drawer>
         {{hex.x}} {{hex.y}} 
       </div>
     </div>
@@ -26,6 +26,7 @@
 </div>
 
 <div id="debug"></div>
+{{globalMap}}
 
 <div id="side-menu" ng-include="'partials/add-hexes-menu.html'"></div>
 

@@ -9,9 +9,14 @@ function isInt(value) {
 ucControllers.controller('GlobalCtrl', function($scope){
   $scope.globalMap = {};
   
-  $scope.$on('onRepeatLast', function(scope, element, attrs){
+  /*$scope.$on('onRepeatLast', function(scope, element, attrs){
     $scope.drawMap();
-  });
+  });*/
+  
+  /*$scope.$watch('globalMap', function(){
+    console.log("gloabalMap changed");
+    $scope.drawMap();
+  });*/
   
   //hex manipulation
   //load map
@@ -19,6 +24,7 @@ ucControllers.controller('GlobalCtrl', function($scope){
     
     //add hex
     $scope.addHex = function() {
+      //validation
       if(!isInt(ae("#x-coord").val())){
         ae("#x-coord").parent().addClass('has-error');
         ae("#add-hexes-message").show().html('X should be integer');
@@ -26,6 +32,7 @@ ucControllers.controller('GlobalCtrl', function($scope){
         ae("#x-coord").parent().removeClass('has-error');
         ae("#y-coord").parent().addClass('has-error');
         ae("#add-hexes-message").show().html('Y should be integer');
+      
       } else {
         ae("#y-coord").parent().removeClass('has-error');
         ae("#add-hexes-message").hide().html('');
@@ -45,22 +52,28 @@ ucControllers.controller('GlobalCtrl', function($scope){
       hex["y"] = ae("#y-coord").val();
       var hexToDelete = hex["x"] + " " + hex["y"];
       delete $scope.globalMap[hexToDelete];
+      alert('hex deleted');
+      $scope.drawMap();
     }
     
-    /*//save map
-    ae('#save-map-btn').click(function(){
+    //save map
+    $scope.saveMap = function(){
       localStorage['globalMap'] = JSON.stringify($scope.globalMap);
-    });
+    };
     
     //load map
-    ae('#load-map-btn').click(function(){
-      $scope.$apply(function () {
-        $scope.globalMap = JSON.parse(localStorage['globalMap']);
-      });
-      drawMap();
-    });
+    $scope.loadMap = function(){
+    $scope.globalMap = JSON.parse(localStorage['globalMap']);
+    console.log($scope.globalMap);
+    };
     
-    //clear map
+    //get hex coordinates when hex is clicked
+    $scope.hexClick = function(x, y) {
+      ae('#x-coord').val(x);
+      ae('#y-coord').val(y);
+    };
+    
+    /*//clear map
     ae('#clear-map-btn').click(function(){
       $scope.$apply(function () {
         $scope.globalMap = {};
@@ -73,6 +86,8 @@ ucControllers.controller('GlobalCtrl', function($scope){
       localStorage.removeItem('globalMap');
     });
   });*/
+  
+  //loads of jquery code. yes, it doesn't belong here. no, I don't know where does it belong yet.
   
   //draw the map
   $scope.drawMap = function() {
@@ -139,33 +154,4 @@ ucControllers.controller('GlobalCtrl', function($scope){
     //if((maxY - minY)%2!=0){viewOffsetY-=hexVerticalOffset};
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
   };
-  
-  $scope.loadMap = function(){
-    $scope.globalMap = JSON.parse(localStorage['globalMap']);
-    console.log($scope.globalMap);
-  };
-  
-  $scope.hexClick = function(x, y) {
-    ae('#x-coord').val(x);
-    ae('#y-coord').val(y);
-  };
-  
-  //map zoom and pan
-  /*$scope.$on('$includeContentLoaded', function() {
-    jQuery('#debug').append("content loaded" + "<br>");
-    jQuery('#map').bind('mousewheel', function(e){
-      if(e.originalEvent.wheelDelta > 0) {
-        if(jQuery(this).data('zoom') > 1) {
-          jQuery(this).data('zoom', jQuery(this).data('zoom') - 1);
-          jQuery('#debug').append("zoomed in" + jQuery(this).data('zoom') + "<br>");
-        }
-      } else if(jQuery(this).data('zoom') < 3){
-        jQuery(this).data('zoom', jQuery(this).data('zoom') + 1);
-        jQuery('#debug').append("zoomed out" + jQuery(this).data('zoom') +"<br>");
-      }
-      jQuery(this).removeClass('zoom1').removeClass('zoom2').removeClass('zoom3').addClass('zoom'+jQuery(this).data('zoom'));
-    });
-    
-    jQuery('#map').draggable();
-  });*/
 });
