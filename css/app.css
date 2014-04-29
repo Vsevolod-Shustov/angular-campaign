@@ -30,6 +30,9 @@
 .hex.hills {
   background:url('../img/hills.png') center center no-repeat;
 }
+.hex.empty {
+  background:black;
+}
 .hex-note {
   position:absolute;
   top:70px;

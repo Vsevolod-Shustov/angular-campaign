@@ -9,83 +9,90 @@ function isInt(value) {
 ucControllers.controller('GlobalCtrl', function($scope){
   $scope.globalMap = {};
   
-  /*$scope.$on('onRepeatLast', function(scope, element, attrs){
-    $scope.drawMap();
-  });*/
-  
-  /*$scope.$watch('globalMap', function(){
-    console.log("gloabalMap changed");
-    $scope.drawMap();
-  });*/
-  
   //hex manipulation
-  //load map
+  //add hex
+  $scope.addHex = function() {
+    //validation
+    if(!isInt(ae("#x-coord").val())){
+      ae("#x-coord").parent().addClass('has-error');
+      ae("#add-hexes-message").show().html('X should be integer');
+    } else if(!isInt(ae("#y-coord").val())) {  
+      ae("#x-coord").parent().removeClass('has-error');
+      ae("#y-coord").parent().addClass('has-error');
+      ae("#add-hexes-message").show().html('Y should be integer');
     
-    
-    //add hex
-    $scope.addHex = function() {
-      //validation
-      if(!isInt(ae("#x-coord").val())){
-        ae("#x-coord").parent().addClass('has-error');
-        ae("#add-hexes-message").show().html('X should be integer');
-      } else if(!isInt(ae("#y-coord").val())) {  
-        ae("#x-coord").parent().removeClass('has-error');
-        ae("#y-coord").parent().addClass('has-error');
-        ae("#add-hexes-message").show().html('Y should be integer');
-      
-      } else {
-        ae("#y-coord").parent().removeClass('has-error');
-        ae("#add-hexes-message").hide().html('');
-        var hex = {};
-        hex["x"] = ae("#x-coord").val();
-        hex["y"] = ae("#y-coord").val();
-        hex["terrain"] = ae("#terrain").val();
-        var hexToWrite = hex["x"] + " " + hex["y"];
-        $scope.globalMap[hexToWrite] = hex;
-      }
-    };
-    
-    //delete hex
-    $scope.deleteHex = function(){
+    } else {
+      ae("#y-coord").parent().removeClass('has-error');
+      ae("#add-hexes-message").hide().html('');
       var hex = {};
       hex["x"] = ae("#x-coord").val();
       hex["y"] = ae("#y-coord").val();
-      var hexToDelete = hex["x"] + " " + hex["y"];
-      delete $scope.globalMap[hexToDelete];
-      alert('hex deleted');
-      $scope.drawMap();
+      hex["terrain"] = ae("#terrain").val();
+      var hexToWrite = hex["x"] + " " + hex["y"];
+      $scope.globalMap[hexToWrite] = hex;
     }
+  };
+  
+  //delete hex
+  $scope.deleteHex = function(){
+    var hex = {};
+    hex["x"] = ae("#x-coord").val();
+    hex["y"] = ae("#y-coord").val();
+    var hexToDelete = hex["x"] + " " + hex["y"];
+    delete $scope.globalMap[hexToDelete];
+  };
+  
+  //save map
+  $scope.saveMap = function(){
+    localStorage['globalMap'] = JSON.stringify($scope.globalMap);
+  };
+  
+  //load map
+  $scope.loadMap = function(){
+  $scope.globalMap = JSON.parse(localStorage['globalMap']);
+  console.log($scope.globalMap);
+  };
+  
+  //get hex coordinates when hex is clicked
+  $scope.hexClick = function(x, y) {
+    ae('#x-coord').val(x);
+    ae('#y-coord').val(y);
+  };
     
-    //save map
-    $scope.saveMap = function(){
-      localStorage['globalMap'] = JSON.stringify($scope.globalMap);
-    };
-    
-    //load map
-    $scope.loadMap = function(){
-    $scope.globalMap = JSON.parse(localStorage['globalMap']);
-    console.log($scope.globalMap);
-    };
-    
-    //get hex coordinates when hex is clicked
-    $scope.hexClick = function(x, y) {
-      ae('#x-coord').val(x);
-      ae('#y-coord').val(y);
-    };
-    
-    /*//clear map
-    ae('#clear-map-btn').click(function(){
-      $scope.$apply(function () {
-        $scope.globalMap = {};
-      });
-      drawMap();
+  //clear map
+  $scope.clearMap = function(){
+    $scope.globalMap = {};
+  };
+  
+  //empty save data
+  $scope.clearSave = function(){
+    localStorage.removeItem('globalMap');
+  };
+  
+  //add empty hexes
+  $scope.getMapDimensions = function(){
+    var maxX = 0;
+    var maxY = 0;
+    var minX = 0;
+    var minY = 0;
+    angular.forEach($scope.globalMap, function(value, key){
+      if(value.x>=0 && value.x>maxX){maxX = value.x;};
+      if(value.y>=0 && value.y>maxY){maxY = value.y};
+      if(value.x<0 && value.x<minX){minX = value.x;};
+      if(value.y<0 && value.y<minY){minY = value.y};
     });
-    
-    //empty save data
-    ae('#clear-save-btn').click(function(){
-      localStorage.removeItem('globalMap');
-    });
-  });*/
+    console.log("maxX="+maxX+"minX="+minX);
+    console.log("maxY="+maxY+"minY="+minY);
+  };
+
+  $scope.$watch(
+    function () { return document.getElementById('hexes-anchor').innerHTML },  
+    function(newval, oldval){
+        //console.log(newval, oldval);
+        //console.log('map changed');
+        jQuery('#debug').append('map changed'+'<br>');
+        $scope.drawMap();
+    }, true);
   
   //loads of jquery code. yes, it doesn't belong here. no, I don't know where does it belong yet.
   
