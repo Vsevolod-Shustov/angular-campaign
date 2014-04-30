@@ -4,7 +4,6 @@
 
 #map-wrapper, html {
   overflow:hidden;
-  min-height:500px;
 }
 #map {
   margin: 0 auto;
@@ -30,8 +29,11 @@
 .hex.hills {
   background:url('../img/hills.png') center center no-repeat;
 }
+.hex.mountain {
+  background:url('../img/mountain.png') center center no-repeat;
+}
 .hex.empty {
-  background:black;
+  background:url('../img/mountain.png') center center no-repeat;
 }
 .hex-note {
   position:absolute;

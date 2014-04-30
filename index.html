@@ -33,6 +33,14 @@
 <div notificationSwitch></div>
 
 <script>
+//draggable
+jQuery(document).ready(function(){
+  jQuery('html').css('height', jQuery(window).height());
+  jQuery('#map-wrapper').css('height', jQuery(window).height());
+});
+</script>
+<script>
+//draggable
 jQuery(document).ready(function(){
   jQuery('#map').bind('mousewheel', function(e){
     if(e.originalEvent.wheelDelta > 0) {

@@ -9,6 +9,14 @@ function isInt(value) {
 ucControllers.controller('GlobalCtrl', function($scope){
   $scope.globalMap = {};
   
+  //watch map
+  $scope.$watch(function(){
+    return jQuery('#hexes-anchor>.hex').size() },  
+    function(){
+      jQuery('#debug').append('map changed'+'<br>');
+      $scope.drawMap();
+    }, true);
+  
   //hex manipulation
   //add hex
   $scope.addHex = function() {
@@ -55,8 +63,38 @@ ucControllers.controller('GlobalCtrl', function($scope){
   
   //get hex coordinates when hex is clicked
   $scope.hexClick = function(x, y) {
+    x = parseInt(x);
+    y = parseInt(y);
     ae('#x-coord').val(x);
     ae('#y-coord').val(y);
+    $scope.nearbyHexes(x, y);
+  };
+  
+  //get coordinates of nearby hexes
+  $scope.nearbyHexes = function(x, y){
+    x = parseInt(x);
+    y = parseInt(y);
+    if(y%2==0) {
+      var result = {
+        "right":{"x":(x+1), "y":y},//right
+        "left":{"x":(x-1), "y":y},//left
+        "top left":{"x":(x-1), "y":(y-1)},//top left
+        "bottom right":{"x":x, "y":(y+1)},//bottom right
+        "bottom left":{"x":(x-1), "y":(y+1)},//bottom left
+        "top right":{"x":x, "y":(y-1)}//top right
+      };
+    } else {
+      var result = {
+        "right":{"x":(x+1), "y":y},//right
+        "left":{"x":(x-1), "y":y},//left
+        "top left":{"x":(x), "y":(y-1)},//top left
+        "bottom right":{"x":(x+1), "y":(y+1)},//bottom right
+        "bottom left":{"x":x, "y":(y+1)},//bottom left
+        "top right":{"x":(x+1), "y":(y-1)}//top right
+      };
+    };
+    //console.log(result);
+    return result;
   };
     
   //clear map
@@ -68,31 +106,36 @@ ucControllers.controller('GlobalCtrl', function($scope){
   $scope.clearSave = function(){
     localStorage.removeItem('globalMap');
   };
-  
-  //add empty hexes
-  $scope.getMapDimensions = function(){
-    var maxX = 0;
-    var maxY = 0;
-    var minX = 0;
-    var minY = 0;
-    angular.forEach($scope.globalMap, function(value, key){
-      if(value.x>=0 && value.x>maxX){maxX = value.x;};
-      if(value.y>=0 && value.y>maxY){maxY = value.y};
-      if(value.x<0 && value.x<minX){minX = value.x;};
-      if(value.y<0 && value.y<minY){minY = value.y};
-    });
-    console.log("maxX="+maxX+"minX="+minX);
-    console.log("maxY="+maxY+"minY="+minY);
-  };
 
-  $scope.$watch(function(){
-    return jQuery('#hexes-anchor>.hex').size() },  
-    function(){
-      jQuery('#debug').append('map changed'+'<br>');
-      $scope.drawMap();
-    }, true);
+  //add blank hexes
+  $scope.addBlankHexes = function(){
+    angular.forEach($scope.globalMap, function(value, key){
+      jQuery('#debug').append("Processing hex "+value.x+" "+value.y+'<br>');
+      if(value.terrain != "empty"){
+        angular.forEach($scope.nearbyHexes(value.x, value.y), function(value, key){
+          var hex = {};
+          hex["x"] = value.x;
+          hex["y"] = value.y;
+          hex["terrain"] = "empty";
+          var hexToWrite = value.x+" "+value.y;
+          if(!$scope.globalMap[hexToWrite]){
+            $scope.globalMap[hexToWrite] = hex;
+            jQuery('#debug').append("Added "+key+" hex "+value.x+" "+value.y+'<br>');
+          };
+        });
+      };
+    });
+  };
   
-  //loads of jquery code. yes, it doesn't belong here. no, I don't know where does it belong yet.
+  //delete blank hexes
+  $scope.deleteBlankHexes = function(){
+    angular.forEach($scope.globalMap, function(value, key){
+      if(value.terrain == "empty") {
+        delete $scope.globalMap[key];
+        jQuery('#debug').append("Empty hex "+key+" deleted<br>");
+      };
+    });
+  };
   
   //draw the map
   $scope.drawMap = function() {
@@ -106,6 +149,8 @@ ucControllers.controller('GlobalCtrl', function($scope){
     var hexWidth = 154;//this includes horizontal margin between hexes
     var hexHeight = 172;//this DOES NOT include vertical margin between hexes
     var hexVerticalOffset = 42;
+    
+    
     
     //position hexes
     jQuery('.hex').each(function(){
