@@ -85,13 +85,11 @@ ucControllers.controller('GlobalCtrl', function($scope){
     console.log("maxY="+maxY+"minY="+minY);
   };
 
-  $scope.$watch(
-    function () { return document.getElementById('hexes-anchor').innerHTML },  
-    function(newval, oldval){
-        //console.log(newval, oldval);
-        //console.log('map changed');
-        jQuery('#debug').append('map changed'+'<br>');
-        $scope.drawMap();
+  $scope.$watch(function(){
+    return jQuery('#hexes-anchor>.hex').size() },  
+    function(){
+      jQuery('#debug').append('map changed'+'<br>');
+      $scope.drawMap();
     }, true);
   
   //loads of jquery code. yes, it doesn't belong here. no, I don't know where does it belong yet.

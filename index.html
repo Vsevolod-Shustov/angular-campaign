@@ -16,7 +16,7 @@
 <body ng-controller="GlobalCtrl">
 <!--<div id="top-navbar" ng-include="'partials/top-navbar.html'"></div>-->
 <div id="map-wrapper">
-  <div id="map" data-zoom="1">
+  <div id="map" class="zoom2" data-zoom="2">
     <div id="hexes-anchor" ng-model="globalMap">
       <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap" on-last-repeat map-drawer>
         {{hex.x}} {{hex.y}} 
@@ -33,8 +33,7 @@
 <div notificationSwitch></div>
 
 <script>
-jQuery(document).ready(function(){  
-jQuery('#debug').append("content loaded" + "<br>");
+jQuery(document).ready(function(){
   jQuery('#map').bind('mousewheel', function(e){
     if(e.originalEvent.wheelDelta > 0) {
       if(jQuery(this).data('zoom') > 1) {
