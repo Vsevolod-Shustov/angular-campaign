@@ -52,6 +52,7 @@ ucControllers.controller('GlobalCtrl', function($scope){
   
   //save map
   $scope.saveMap = function(){
+    $scope.deleteBlankHexes();
     localStorage['globalMap'] = JSON.stringify($scope.globalMap);
   };
   
@@ -139,6 +140,7 @@ ucControllers.controller('GlobalCtrl', function($scope){
   
   //draw the map
   $scope.drawMap = function() {
+    $scope.addBlankHexes();
     //variables for determining map size
     var maxX = 0;
     var maxY = 0;
