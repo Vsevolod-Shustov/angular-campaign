@@ -36,8 +36,8 @@ ucControllers.controller('MapCtrl', function($scope, MapService){
       hex["x"] = ae("#x-coord").val();
       hex["y"] = ae("#y-coord").val();
       hex["terrain"] = ae("#terrain").val();
-      var hexToWrite = hex["x"] + " " + hex["y"];
-      $scope.globalMap[hexToWrite] = hex;
+      MapService.addHex(hex);
+      $scope.drawMap();
     }
   };
   
@@ -52,15 +52,8 @@ ucControllers.controller('MapCtrl', function($scope, MapService){
   
   //save map
   $scope.saveMap = function(){
-    $scope.deleteBlankHexes();
-    localStorage['globalMap'] = JSON.stringify($scope.globalMap);
+    MapService.saveMap();
   };
-  
-  //load map
-  /*$scope.loadMap = function(){
-  $scope.globalMap = JSON.parse(localStorage['globalMap']);
-  console.log($scope.globalMap);
-  };*/
   
   //load map
   $scope.loadMap = function(){
