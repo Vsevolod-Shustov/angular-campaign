@@ -1,8 +1,10 @@
-ucApp.directive('notificationSwitch', function () {
+ucApp.directive('loadMap', function ($scope, MapService) {
   return {
     restrict: 'A',
     link: function(scope, element) {
-      alert('test');
+      element.bind('click', function(){
+        
+      });
     }
   };
 });

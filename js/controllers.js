@@ -6,7 +6,7 @@ function isInt(value) {
   return !isNaN(value) && parseInt(value) == value;
 }
 
-ucControllers.controller('GlobalCtrl', function($scope){
+ucControllers.controller('MapCtrl', function($scope, MapService){
   $scope.globalMap = {};
   
   //watch map
@@ -57,9 +57,15 @@ ucControllers.controller('GlobalCtrl', function($scope){
   };
   
   //load map
-  $scope.loadMap = function(){
+  /*$scope.loadMap = function(){
   $scope.globalMap = JSON.parse(localStorage['globalMap']);
   console.log($scope.globalMap);
+  };*/
+  
+  //load map
+  $scope.loadMap = function(){
+    $scope.globalMap = MapService.loadMap();
+    console.log($scope.globalMap);
   };
   
   //get hex coordinates when hex is clicked

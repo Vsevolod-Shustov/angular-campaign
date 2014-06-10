@@ -11,12 +11,13 @@
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/directives.js"></script>
+  <script src="js/services.js"></script>
   <script src="js/bootstrap.min.js"></script>
 </head>
-<body ng-controller="GlobalCtrl">
+<body ng-controller="MapCtrl">
 <!--<div id="top-navbar" ng-include="'partials/top-navbar.html'"></div>-->
 <div id="map-wrapper">
-  <div id="map" class="zoom2" data-zoom="2">
+  <div id="map" class="zoom1" data-zoom="1">
     <div id="hexes-anchor" ng-model="globalMap">
       <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap" on-last-repeat map-drawer>
         {{hex.x}} {{hex.y}} 
