@@ -6,8 +6,9 @@ function isInt(value) {
   return !isNaN(value) && parseInt(value) == value;
 }
 
-ucControllers.controller('MapCtrl', function($scope, MapService){
+ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   $scope.globalMap = {};
+  //$scope.globalMap = LocalStorageService.load('globalMap');
   
   //watch map
   $scope.$watch(function(){
@@ -36,7 +37,7 @@ ucControllers.controller('MapCtrl', function($scope, MapService){
       hex["x"] = ae("#x-coord").val();
       hex["y"] = ae("#y-coord").val();
       hex["terrain"] = ae("#terrain").val();
-      MapService.addHex(hex);
+      $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
       $scope.drawMap();
     }
   };
@@ -48,16 +49,18 @@ ucControllers.controller('MapCtrl', function($scope, MapService){
     hex["y"] = ae("#y-coord").val();
     var hexToDelete = hex["x"] + " " + hex["y"];
     delete $scope.globalMap[hexToDelete];
+    $scope.drawMap();
   };
   
   //save map
   $scope.saveMap = function(){
-    MapService.saveMap();
+    $scope.deleteBlankHexes();
+    LocalStorageService.save('globalMap', $scope.globalMap);
   };
   
   //load map
   $scope.loadMap = function(){
-    $scope.globalMap = MapService.loadMap();
+    $scope.globalMap = LocalStorageService.load('globalMap');
     console.log($scope.globalMap);
   };
   
@@ -65,9 +68,11 @@ ucControllers.controller('MapCtrl', function($scope, MapService){
   $scope.hexClick = function(x, y) {
     x = parseInt(x);
     y = parseInt(y);
-    ae('#x-coord').val(x);
+    /*ae('#x-coord').val(x);
     ae('#y-coord').val(y);
-    $scope.nearbyHexes(x, y);
+    $scope.nearbyHexes(x, y);*/
+    $scope.currentHex = $scope.globalMap[x + " " + y];
+    console.log($scope.currentHex);
   };
   
   //get coordinates of nearby hexes
@@ -139,6 +144,7 @@ ucControllers.controller('MapCtrl', function($scope, MapService){
   
   //draw the map
   $scope.drawMap = function() {
+    $scope.deleteBlankHexes();
     $scope.addBlankHexes();
     //variables for determining map size
     var maxX = 0;

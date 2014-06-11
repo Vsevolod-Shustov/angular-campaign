@@ -1,13 +1,13 @@
 <form class="form-horizontal" id="add-hexes-form" role="form">
   <div class="form-group">
     <div class="col-sm-12">
-      <input type="text" class="form-control" id="x-coord" placeholder="X coordinate">
+      <input type="text" class="form-control" id="x-coord" placeholder="X coordinate" value="{{currentHex.x}}">
     </div>
     <div class="col-sm-12">
-      <input type="text" class="form-control" id="y-coord" placeholder="Y coordinate">
+      <input type="text" class="form-control" id="y-coord" placeholder="Y coordinate" value="{{currentHex.y}}">
     </div>
     <div class="col-sm-12">
-      <select class="form-control" id="terrain">
+      <select class="form-control" id="terrain" value="{{currentHex.terrain}}">
         <option value="plains">Plains</option>
         <option value="hills">Hills</option>
         <option value="forest">Forest</option>

@@ -1,19 +1,13 @@
 var ucServices = angular.module('ucServices', []);
 
-ucServices.service('MapService', [ '$rootScope', function(){
+ucServices.service('LocalStorageService', [ '$rootScope', function(){
   var service = {
-    loadMap: function(){
-      globalMap = JSON.parse(localStorage['globalMap']);
-      return globalMap;
+    load: function(key, value){
+      return JSON.parse(localStorage[key]);
     },
-    saveMap: function(){
-      $scope.deleteBlankHexes();
-      localStorage['globalMap'] = JSON.stringify($scope.globalMap);
-    },
-    addHex: function(hex){
-      globalMap[hex["x"] + " " + hex["y"]] = hex;
+    save: function(key, value){
+      localStorage[key] = JSON.stringify(value);
     }
-  }
-  
+  } 
   return service;
 }]);
