@@ -16,9 +16,22 @@
   width:152px;
   height:172px;
   position:absolute;
+  z-index:-10;
+}
+.hex-text {
+  position:absolute;
+  top:0;
+  left:0;
   text-align:center;
   padding-top:10px;
-  z-index:-10;
+  width:100%;
+}
+.hex canvas.borders {
+  position:absolute;
+  top:0;
+  left:0;
+  width:152px;
+  height:172px;
 }
 .hex.plains {
   background:url('../img/plains.png') center center no-repeat;

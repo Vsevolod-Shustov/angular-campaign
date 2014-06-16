@@ -8,7 +8,7 @@ function isInt(value) {
 
 ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   $scope.globalMap = {};
-  //$scope.globalMap = LocalStorageService.load('globalMap');
+  $scope.globalMap = LocalStorageService.load('globalMap');
   
   //watch map
   $scope.$watch(function(){
@@ -34,8 +34,8 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
       ae("#y-coord").parent().removeClass('has-error');
       ae("#add-hexes-message").hide().html('');
       var hex = {};
-      hex["x"] = ae("#x-coord").val();
-      hex["y"] = ae("#y-coord").val();
+      hex["x"] = parseInt(ae("#x-coord").val());
+      hex["y"] = parseInt(ae("#y-coord").val());
       hex["terrain"] = ae("#terrain").val();
       $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
       $scope.drawMap();
@@ -68,13 +68,25 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   $scope.hexClick = function(x, y) {
     x = parseInt(x);
     y = parseInt(y);
-    /*ae('#x-coord').val(x);
-    ae('#y-coord').val(y);
-    $scope.nearbyHexes(x, y);*/
     $scope.currentHex = $scope.globalMap[x + " " + y];
+    //$scope.currentHex = {};
+    //angular.copy($scope.globalMap[x + " " + y], $scope.currentHex);
     console.log($scope.currentHex);
+    ae('#x-coord').val($scope.currentHex.x);
+    ae('#y-coord').val($scope.currentHex.y);
+    ae('#terrain').val($scope.currentHex.terrain);
+  };
+    
+  //clear map
+  $scope.clearMap = function(){
+    $scope.globalMap = {};
   };
   
+  //empty save data
+  $scope.clearSave = function(){
+    localStorage.removeItem('globalMap');
+  };
+
   //get coordinates of nearby hexes
   $scope.nearbyHexes = function(x, y){
     x = parseInt(x);
@@ -101,17 +113,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     //console.log(result);
     return result;
   };
-    
-  //clear map
-  $scope.clearMap = function(){
-    $scope.globalMap = {};
-  };
   
-  //empty save data
-  $scope.clearSave = function(){
-    localStorage.removeItem('globalMap');
-  };
-
   //add blank hexes
   $scope.addBlankHexes = function(){
     angular.forEach($scope.globalMap, function(value, key){
@@ -210,5 +212,17 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     //jQuery('#debug').append(minY+" "+ viewOffsetY +"<br>");
     //if((maxY - minY)%2!=0){viewOffsetY-=hexVerticalOffset};
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
+    
+    //draw borders
+    //works, disabled for now
+    /*jQuery('.hex').each(function(){
+      var canvas = document.getElementById(jQuery(this).data("x")+'-'+jQuery(this).data("y")+'-canvas');
+      var context = canvas.getContext("2d");
+        context.moveTo(0, 44);
+        context.lineTo(76, 0);
+        context.lineWidth=2;
+        context.strokeStyle = "#0f0";
+        context.stroke();
+    });*/
   };
 });

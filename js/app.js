@@ -1,4 +1,5 @@
 var ucApp = angular.module('ucApp', [
   'ucControllers',
-  'ucServices'
+  'ucServices',
+  'ucDirectives'
 ]);
