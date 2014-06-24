@@ -26,7 +26,7 @@
   padding-top:10px;
   width:100%;
 }
-.hex canvas.borders {
+.hex canvas {
   position:absolute;
   top:0;
   left:0;
