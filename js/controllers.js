@@ -7,8 +7,10 @@ function isInt(value) {
 }
 
 ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
+  $scope.text = 'Hello World!';
   $scope.globalMap = {};
   $scope.globalMap = LocalStorageService.load('globalMap');
+  //jQuery('#debug').append(JSON.stringify($scope.globalMap));
   
   //watch map
   $scope.$watch(function(){
@@ -117,7 +119,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   //add blank hexes
   $scope.addBlankHexes = function(){
     angular.forEach($scope.globalMap, function(value, key){
-      jQuery('#debug').append("Processing hex "+value.x+" "+value.y+'<br>');
+      //jQuery('#debug').append("Processing hex "+value.x+" "+value.y+'<br>');
       if(value.terrain != "empty"){
         angular.forEach($scope.nearbyHexes(value.x, value.y), function(value, key){
           var hex = {};
@@ -127,7 +129,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
           var hexToWrite = value.x+" "+value.y;
           if(!$scope.globalMap[hexToWrite]){
             $scope.globalMap[hexToWrite] = hex;
-            jQuery('#debug').append("Added "+key+" hex "+value.x+" "+value.y+'<br>');
+            //jQuery('#debug').append("Added "+key+" hex "+value.x+" "+value.y+'<br>');
           };
         });
       };

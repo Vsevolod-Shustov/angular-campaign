@@ -8,9 +8,12 @@
   "dependencies": {
     "angular": "1.2.x",
     "angular-route": "1.2.x",
+    "angular-mocks": "*",
     "bootstrap": "3.1.1",
     "jquery": "1.10.x",
     "jquery-ui": "1.10.x",
-    "jquery.kinetic": "2.x.x"
+    "jquery.kinetic": "2.x.x",
+    "jasmine": "*",
+    "karma": "*"
   }
 }
