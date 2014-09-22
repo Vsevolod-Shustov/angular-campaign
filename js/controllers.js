@@ -10,6 +10,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   $scope.text = 'Hello World!';
   $scope.globalMap = {};
   $scope.globalMap = LocalStorageService.load('globalMap');
+  $scope.hexForm = {};
   //jQuery('#debug').append(JSON.stringify($scope.globalMap));
   
   //watch map
@@ -23,32 +24,19 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   //hex manipulation
   //add hex
   $scope.addHex = function() {
-    //validation
-    if(!isInt(ae("#x-coord").val())){
-      ae("#x-coord").parent().addClass('has-error');
-      ae("#add-hexes-message").show().html('X should be integer');
-    } else if(!isInt(ae("#y-coord").val())) {  
-      ae("#x-coord").parent().removeClass('has-error');
-      ae("#y-coord").parent().addClass('has-error');
-      ae("#add-hexes-message").show().html('Y should be integer');
-    
-    } else {
-      ae("#y-coord").parent().removeClass('has-error');
-      ae("#add-hexes-message").hide().html('');
-      var hex = {};
-      hex["x"] = parseInt(ae("#x-coord").val());
-      hex["y"] = parseInt(ae("#y-coord").val());
-      hex["terrain"] = ae("#terrain").val();
-      $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
-      $scope.drawMap();
-    }
+    var hex = {};
+    hex["x"] = $scope.hexForm.x;
+    hex["y"] = $scope.hexForm.y;
+    hex["terrain"] = $scope.hexForm.terrain;
+    $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
+    $scope.drawMap();
   };
   
   //delete hex
   $scope.deleteHex = function(){
     var hex = {};
-    hex["x"] = ae("#x-coord").val();
-    hex["y"] = ae("#y-coord").val();
+    hex["x"] = $scope.hexForm.x;
+    hex["y"] = $scope.hexForm.y;
     var hexToDelete = hex["x"] + " " + hex["y"];
     delete $scope.globalMap[hexToDelete];
     $scope.drawMap();
@@ -68,15 +56,18 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   
   //get hex coordinates when hex is clicked
   $scope.hexClick = function(x, y) {
-    x = parseInt(x);
-    y = parseInt(y);
+    //x = parseInt(x);
+    //y = parseInt(y);
     $scope.currentHex = $scope.globalMap[x + " " + y];
     //$scope.currentHex = {};
     //angular.copy($scope.globalMap[x + " " + y], $scope.currentHex);
     console.log($scope.currentHex);
-    ae('#x-coord').val($scope.currentHex.x);
+    /*ae('#x-coord').val($scope.currentHex.x);
     ae('#y-coord').val($scope.currentHex.y);
-    ae('#terrain').val($scope.currentHex.terrain);
+    ae('#terrain').val($scope.currentHex.terrain);*/
+    $scope.hexForm.x = $scope.currentHex.x;
+    $scope.hexForm.y = $scope.currentHex.y;
+    $scope.hexForm.terrain = $scope.currentHex.terrain;
   };
     
   //clear map
