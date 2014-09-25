@@ -17,7 +17,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   $scope.$watch(function(){
     return jQuery('#hexes-anchor>.hex').size() },  
     function(){
-      jQuery('#debug').append('map changed'+'<br>');
       $scope.drawMap();
     }, true);
   
@@ -59,12 +58,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     //x = parseInt(x);
     //y = parseInt(y);
     $scope.currentHex = $scope.globalMap[x + " " + y];
-    //$scope.currentHex = {};
-    //angular.copy($scope.globalMap[x + " " + y], $scope.currentHex);
-    console.log($scope.currentHex);
-    /*ae('#x-coord').val($scope.currentHex.x);
-    ae('#y-coord').val($scope.currentHex.y);
-    ae('#terrain').val($scope.currentHex.terrain);*/
     $scope.hexForm.x = $scope.currentHex.x;
     $scope.hexForm.y = $scope.currentHex.y;
     $scope.hexForm.terrain = $scope.currentHex.terrain;
@@ -110,7 +103,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   //add blank hexes
   $scope.addBlankHexes = function(){
     angular.forEach($scope.globalMap, function(value, key){
-      //jQuery('#debug').append("Processing hex "+value.x+" "+value.y+'<br>');
       if(value.terrain != "empty"){
         angular.forEach($scope.nearbyHexes(value.x, value.y), function(value, key){
           var hex = {};
@@ -120,7 +112,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
           var hexToWrite = value.x+" "+value.y;
           if(!$scope.globalMap[hexToWrite]){
             $scope.globalMap[hexToWrite] = hex;
-            //jQuery('#debug').append("Added "+key+" hex "+value.x+" "+value.y+'<br>');
           };
         });
       };
@@ -186,7 +177,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     } else {
       var mapWidth = (maxX - minX + 1.5)*hexWidth;
     };
-    //if(maxXY%2!=0){mapWidth+=hexWidth/2};
     jQuery('#debug').append(maxX+" ").append(maxXY)
     .append("<br>"+minX+" ").append(minXY+"<br>"+"<br>");
     var mapHeight = (maxY - minY + 1)*(hexHeight - hexVerticalOffset)+hexVerticalOffset;
@@ -198,24 +188,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     } else {
       var viewOffsetX = (Math.abs(minX)+0.5)*hexWidth;
     };
-    //var viewOffsetX = (Math.abs(minX)+1)*hexWidth;
-    //if(maxXY%2!=0 && minXY%2!=0){viewOffsetX-=hexWidth/2};
-    //var viewOffsetY = (Math.abs(minY)||0.5)*hexHeight + hexVerticalOffset;
     var viewOffsetY = (Math.abs(minY))*(hexHeight - hexVerticalOffset) + hexHeight/2;
-    //jQuery('#debug').append(minY+" "+ viewOffsetY +"<br>");
-    //if((maxY - minY)%2!=0){viewOffsetY-=hexVerticalOffset};
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
-    
-    //draw borders
-    //works, disabled for now
-    /*jQuery('.hex').each(function(){
-      var canvas = document.getElementById(jQuery(this).data("x")+'-'+jQuery(this).data("y")+'-canvas');
-      var context = canvas.getContext("2d");
-        context.moveTo(0, 44);
-        context.lineTo(76, 0);
-        context.lineWidth=2;
-        context.strokeStyle = "#0f0";
-        context.stroke();
-    });*/
   };
 });

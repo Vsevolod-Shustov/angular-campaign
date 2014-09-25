@@ -19,7 +19,7 @@
 <div id="map-wrapper">
   <div id="map" class="zoom1" data-zoom="1">
     <div id="hexes-anchor" ng-model="globalMap">
-      <div class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y, hex.terrain)" ng-repeat="hex in globalMap">
+      <div id="hex_{{hex.x}}_{{hex.y}}" class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap">
         <canvas width="152" height="172" id="{{hex.x}}-{{hex.y}}-canvas"></canvas>
         <div class="hex-text">{{hex.x}} {{hex.y}}</div>
       </div>
