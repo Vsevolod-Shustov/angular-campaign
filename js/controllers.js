@@ -11,14 +11,15 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   $scope.globalMap = {};
   $scope.globalMap = LocalStorageService.load('globalMap');
   $scope.hexForm = {};
-  //jQuery('#debug').append(JSON.stringify($scope.globalMap));
   
   //watch map
-  $scope.$watch(function(){
+  /*$scope.$watch(function(){
     return jQuery('#hexes-anchor>.hex').size() },  
     function(){
       $scope.drawMap();
-    }, true);
+    }
+  );*/
+  $scope.$watch('globalMap',function(){$scope.drawMap()},true);
   
   //hex manipulation
   //add hex
@@ -28,7 +29,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     hex["y"] = $scope.hexForm.y;
     hex["terrain"] = $scope.hexForm.terrain;
     $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
-    $scope.drawMap();
+    //$scope.drawMap();
   };
   
   //delete hex
@@ -38,7 +39,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     hex["y"] = $scope.hexForm.y;
     var hexToDelete = hex["x"] + " " + hex["y"];
     delete $scope.globalMap[hexToDelete];
-    $scope.drawMap();
+    //$scope.drawMap();
   };
   
   //save map
@@ -50,13 +51,10 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   //load map
   $scope.loadMap = function(){
     $scope.globalMap = LocalStorageService.load('globalMap');
-    console.log($scope.globalMap);
   };
   
   //get hex coordinates when hex is clicked
   $scope.hexClick = function(x, y) {
-    //x = parseInt(x);
-    //y = parseInt(y);
     $scope.currentHex = $scope.globalMap[x + " " + y];
     $scope.hexForm.x = $scope.currentHex.x;
     $scope.hexForm.y = $scope.currentHex.y;
@@ -96,7 +94,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
         "top right":{"x":(x+1), "y":(y-1)}//top right
       };
     };
-    //console.log(result);
     return result;
   };
   
@@ -121,10 +118,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
   //delete blank hexes
   $scope.deleteBlankHexes = function(){
     angular.forEach($scope.globalMap, function(value, key){
-      if(value.terrain == "empty") {
-        delete $scope.globalMap[key];
-        jQuery('#debug').append("Empty hex "+key+" deleted<br>");
-      };
+      if(value.terrain == "empty") {delete $scope.globalMap[key]};
     });
   };
   
@@ -142,9 +136,7 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     var hexWidth = 154;//this includes horizontal margin between hexes
     var hexHeight = 172;//this DOES NOT include vertical margin between hexes
     var hexVerticalOffset = 42;
-    
-    
-    
+
     //position hexes
     jQuery('.hex').each(function(){
       var x = jQuery(this).data("x");
@@ -177,8 +169,6 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     } else {
       var mapWidth = (maxX - minX + 1.5)*hexWidth;
     };
-    jQuery('#debug').append(maxX+" ").append(maxXY)
-    .append("<br>"+minX+" ").append(minXY+"<br>"+"<br>");
     var mapHeight = (maxY - minY + 1)*(hexHeight - hexVerticalOffset)+hexVerticalOffset;
     jQuery('#map').css('width', mapWidth).css('height', mapHeight).css('background','#dde');
     

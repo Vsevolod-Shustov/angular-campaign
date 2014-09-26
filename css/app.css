@@ -1,6 +1,9 @@
 * {
   box-sizing:border-box;
 }
+body {
+  color:black;
+}
 
 #map-wrapper, html {
   overflow:hidden;
@@ -45,8 +48,11 @@
 .hex.mountain {
   background:url('../img/mountain.png') center center no-repeat;
 }
+.hex.swamp {
+  background:url('../img/swamp.png') center center no-repeat;
+}
 .hex.empty {
-  background:url('../img/mountain.png') center center no-repeat;
+  background:url('../img/empty.png') center center no-repeat;
 }
 .hex-note {
   position:absolute;
@@ -127,6 +133,7 @@
   z-index:100;
   overflow-y:scroll;
   max-height:90%;
+  display:none;
 }
 
 #top-navbar {
