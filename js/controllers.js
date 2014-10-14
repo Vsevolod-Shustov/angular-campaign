@@ -6,7 +6,7 @@ function isInt(value) {
   return !isNaN(value) && parseInt(value) == value;
 }
 
-ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
+ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($scope, LocalStorageService){
   $scope.text = 'Hello World!';
   $scope.globalMap = {};
   $scope.globalMap = LocalStorageService.load('globalMap');
@@ -181,4 +181,4 @@ ucControllers.controller('MapCtrl', function($scope, LocalStorageService){
     var viewOffsetY = (Math.abs(minY))*(hexHeight - hexVerticalOffset) + hexHeight/2;
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
   };
-});
+}]);
