@@ -11,6 +11,7 @@ body {
 #map {
   margin: 0 auto;
   position:relative;
+  cursor:grab;
 }
 
 
