@@ -19,7 +19,7 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
       $scope.drawMap();
     }
   );*/
-  $scope.$watch('globalMap',function(){$scope.drawMap()},true);
+  //$scope.$watch('globalMap',function(){$scope.drawMap()},true);
   
   //hex manipulation
   //add hex
@@ -123,7 +123,7 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
   };
   
   //draw the map
-  $scope.drawMap = function() {
+  /*$scope.drawMap = function() {
     $scope.deleteBlankHexes();
     $scope.addBlankHexes();
     //variables for determining map size
@@ -180,5 +180,5 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
     };
     var viewOffsetY = (Math.abs(minY))*(hexHeight - hexVerticalOffset) + hexHeight/2;
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
-  };
+  };*/
 }]);

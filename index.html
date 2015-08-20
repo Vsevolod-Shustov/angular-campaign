@@ -13,16 +13,16 @@
   <script src="js/directives.js"></script>
   <script src="js/services.js"></script>
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="vendor/d3/d3.min.js"></script>
 </head>
 <body ng-controller="MapCtrl">
 <!--<div id="top-navbar" ng-include="'partials/top-navbar.html'"></div>-->
 <div id="map-wrapper">
-  <div id="map" class="zoom1" data-zoom="1">
-    <div id="hexes-anchor">
+  <div id="map" class="zoom1" data-zoom="1" map_drawer>
+    <!--<div id="hexes-anchor">
       <div id="hex_{{hex.x}}_{{hex.y}}" class="hex {{hex.terrain}}" data-x="{{hex.x}}" data-y="{{hex.y}}" ng-click="hexClick(hex.x, hex.y)" ng-repeat="hex in globalMap">
-        <canvas width="152" height="172" id="{{hex.x}}-{{hex.y}}-canvas"></canvas>
         <div class="hex-text">{{hex.x}} {{hex.y}}</div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>
@@ -35,10 +35,10 @@
 
 <script>
 //draggable
-jQuery(document).ready(function(){
+/*jQuery(document).ready(function(){
   jQuery('html').css('height', jQuery(window).height());
   jQuery('#map-wrapper').css('height', jQuery(window).height());
-});
+});*/
 </script>
 <script>
 //draggable

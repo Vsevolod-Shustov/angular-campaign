@@ -16,7 +16,7 @@ body {
 
 
 
-.hex {
+/*.hex {
   width:152px;
   height:172px;
   position:absolute;
@@ -29,14 +29,14 @@ body {
   text-align:center;
   padding-top:10px;
   width:100%;
-}
-.hex canvas {
+}*/
+/*.hex canvas {
   position:absolute;
   top:0;
   left:0;
   width:152px;
   height:172px;
-}
+}*/
 .hex.plains {
   background:url('../img/plains.png') center center no-repeat;
 }
