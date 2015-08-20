@@ -23,28 +23,27 @@ ucDirectives.directive('mapDrawer', function(){
         .append('svg')
         .attr('width', svgWidth)
         .attr('height', svgHeight);
-      scope.$watch('globalMap',function(newMap, oldMap){
+      scope.$watch('globalMap',function(newMap){
         //console.log(scope.globalMap);
         console.log(newMap);
         newMapArr = Object.keys(newMap).map(function (key) {return newMap[key]});
-        var globalMapSVG = svg.selectAll("rect")
+        var hex = svg.selectAll("g")
           .data(newMapArr)
           .enter()
-          .append("rect")
-          .attr("x", function(d, i) {
-            return i * (hexWidth + 1);  //Bar width of 20 plus 1 for padding
-          })
-          .attr("y", 0)
-          .attr("width", hexWidth)
-          .attr("height", hexHeight)
-          .attr("fill", "#eee");
-          
-          /*globalMapSVG.append('text')
-          .attr('x', 10)
+          .append("g")
+          .attr("transform", function(d, i) { return "translate(" + i * (hexWidth + 1) + ",0)"; });
+        
+        hex.append('rect')
+          .attr('width', hexWidth)
+          .attr('height', hexHeight)
+          .attr('fill', '#fed');
+        
+        hex.append('text')
+          .attr("x", 10)
           .attr('y', 10)
           .attr("dy", ".35em")
           .attr("fill", "#000")
-          .text(function(d){return d.x});*/
+          .text(function(d){return d.x});
       },true);
     }
   }
