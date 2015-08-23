@@ -37,6 +37,11 @@ body {
   width:152px;
   height:172px;
 }*/
+.hex polygon {
+  stroke:black;
+  stroke-width:1;
+  fill:white;
+}
 .hex.plains {
   background:url('../img/plains.png') center center no-repeat;
 }
