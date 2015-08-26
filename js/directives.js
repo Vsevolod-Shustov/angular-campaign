@@ -23,13 +23,16 @@ ucDirectives.directive('mapDrawer', function(){
         .append('svg')
         .attr('width', svgWidth)
         .attr('height', svgHeight)
-        .append('g')
+        .attr('id', 'map-holder-svg');
+      var mapholder = svg.append('g')
         .attr('id', 'map-holder-g');
+      scope.firstload = true
+        
       scope.$watch('globalMap',function(newMap){
         //console.log(scope.globalMap);
-        console.log(newMap);
+        //console.log(newMap);
         var newMapArr = Object.keys(newMap).map(function (key) {return newMap[key]});
-        var hex = svg.selectAll("g.hex")
+        var hex = mapholder.selectAll("g.hex")
           .data(newMapArr);
         
         hex.enter()
@@ -73,13 +76,29 @@ ucDirectives.directive('mapDrawer', function(){
           .text(function(d){return d.terrain});
         
         hex.exit().remove();
-        
-        svg.attr("transform", "translate(400,200)");
+
+        //position top left corner of the map to top left corner of svg
+        var mapXresetPos = document.getElementById("map-holder-g").getBBox().x; mapXresetPos*=-1;
+        var mapYresetPos = document.getElementById("map-holder-g").getBBox().y; mapYresetPos*=-1;
+        //mapholder.attr("transform", "translate("+mapXresetPos+","+mapYresetPos+")");
+
+        //center the map
+        var mapXpos = (d3.select("#map-holder-svg").attr('width') - document.getElementById("map-holder-g").getBBox().width)/2;
+        var mapXpos = mapXpos + mapXresetPos;
+        var mapYpos = (d3.select("#map-holder-svg").attr('height') - document.getElementById("map-holder-g").getBBox().height)/2;
+        var mapYpos = mapYpos + mapYresetPos
+        //console.log(document.getElementById("map-holder-g").getBBox());
+        if(scope.firstload == true) {
+          mapholder.attr("transform", "translate("+mapXpos+","+mapYpos+")");
+        } else {
+          mapholder.transition(500).attr("transform", "translate("+mapXpos+","+mapYpos+")");
+        };
+        scope.firstload = false;
       },true);
       
       //drag the map
       var drag = d3.behavior.drag().on("drag", dragmove);
-      var mapholder = d3.select('#map-holder-g');
+      //var mapholder = d3.select('#map-holder-g');
       mapholder.call(drag);
       function dragmove() {
         var t = d3.transform(mapholder.attr("transform"));
