@@ -29,15 +29,16 @@ ucDirectives.directive('mapDrawer', function(){
       scope.firstload = true
         
       scope.$watch('globalMap',function(newMap){
-        //console.log(scope.globalMap);
-        //console.log(newMap);
         var newMapArr = Object.keys(newMap).map(function (key) {return newMap[key]});
         var hex = mapholder.selectAll("g.hex")
           .data(newMapArr);
+        //scope.deleteBlankHexes();
+        //scope.addBlankHexes();
         
         hex.enter()
           .append("g")
           .classed('hex', true)
+          .attr('class', function(d){return d3.select(this).attr("class") + " "+d.terrain;})
           .attr("transform", function(d, i) {
             var xPos = d.x*hexWidth-hexWidth/2;
             if(d.y%2!=0){xPos+=hexWidth/2};
@@ -48,6 +49,9 @@ ucDirectives.directive('mapDrawer', function(){
           });
 
         hex.append('polygon')
+          .attr('data-x', function(d){return d.x;})
+          .attr('data-y', function(d){return d.y;})
+          .attr('data-terrain', function(d){return d.terrain;})
           .attr('points', function(){
             var hexagonString="";
             for(i=0;i<hexagon.length;i++){
@@ -77,6 +81,24 @@ ucDirectives.directive('mapDrawer', function(){
         
         hex.exit().remove();
 
+        positionTheMap();
+        
+        scope.firstload = false;
+      },true);//end update
+      
+      //drag the map
+      var drag = d3.behavior.drag().on("drag", dragmove);
+      //var mapholder = d3.select('#map-holder-g');
+      mapholder.call(drag);
+      function dragmove() {
+        var t = d3.transform(mapholder.attr("transform"));
+        var xmove = t.translate[0] + d3.event.dx;
+        var ymove = t.translate[1] + d3.event.dy;
+        mapholder.attr('transform', 'translate('+xmove+','+ymove+')');
+      };
+      
+      var positionTheMap = function(){
+        console.log('positioning the map...');
         //position top left corner of the map to top left corner of svg
         var mapXresetPos = document.getElementById("map-holder-g").getBBox().x; mapXresetPos*=-1;
         var mapYresetPos = document.getElementById("map-holder-g").getBBox().y; mapYresetPos*=-1;
@@ -93,19 +115,13 @@ ucDirectives.directive('mapDrawer', function(){
         } else {
           mapholder.transition(500).attr("transform", "translate("+mapXpos+","+mapYpos+")");
         };
-        scope.firstload = false;
-      },true);
-      
-      //drag the map
-      var drag = d3.behavior.drag().on("drag", dragmove);
-      //var mapholder = d3.select('#map-holder-g');
-      mapholder.call(drag);
-      function dragmove() {
-        var t = d3.transform(mapholder.attr("transform"));
-        var xmove = t.translate[0] + d3.event.dx;
-        var ymove = t.translate[1] + d3.event.dy;
-        mapholder.attr('transform', 'translate('+xmove+','+ymove+')');
       };
+      
+      $(window).resize(function(){
+        scope.firstload = true;
+        $('#map-holder-svg').attr('width', window.innerWidth).attr('height', window.innerHeight);
+        positionTheMap();
+      });
     }
   }
 });

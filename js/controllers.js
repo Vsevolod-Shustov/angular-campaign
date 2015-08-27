@@ -25,10 +25,14 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
   //add hex
   $scope.addHex = function() {
     var hex = {};
-    hex["x"] = $scope.hexForm.x;
-    hex["y"] = $scope.hexForm.y;
-    hex["terrain"] = $scope.hexForm.terrain;
-    $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
+    if(!$scope.hexForm.terrain) {
+      console.log('Hex must have terrain.');
+    } else {
+      hex["x"] = $scope.hexForm.x;
+      hex["y"] = $scope.hexForm.y;
+      hex["terrain"] = $scope.hexForm.terrain;
+      $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
+    };
     //$scope.drawMap();
   };
   
@@ -55,6 +59,7 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
   
   //get hex coordinates when hex is clicked
   $scope.hexClick = function(x, y) {
+    console.log("Hey, don't poke hexes!");
     $scope.currentHex = $scope.globalMap[x + " " + y];
     $scope.hexForm.x = $scope.currentHex.x;
     $scope.hexForm.y = $scope.currentHex.y;
