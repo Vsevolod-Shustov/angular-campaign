@@ -1,6 +1,6 @@
 var ucDirectives = angular.module('ucDirectives', []);
 
-ucDirectives.directive('mapDrawer', function(){
+ucDirectives.directive('mapDrawer', ['$compile', function($compile){
   return {
     restrict: "A",
     link: function(scope, elem, attrs){
@@ -29,6 +29,7 @@ ucDirectives.directive('mapDrawer', function(){
       scope.firstload = true
         
       scope.$watch('globalMap',function(newMap){
+        mapholder.selectAll('*').remove();
         var newMapArr = Object.keys(newMap).map(function (key) {return newMap[key]});
         var hex = mapholder.selectAll("g.hex")
           .data(newMapArr);
@@ -39,6 +40,10 @@ ucDirectives.directive('mapDrawer', function(){
           .append("g")
           .classed('hex', true)
           .attr('class', function(d){return d3.select(this).attr("class") + " "+d.terrain;})
+          .attr('data-x', function(d){return d.x;})
+          .attr('data-y', function(d){return d.y;})
+          .attr('data-terrain', function(d){return d.terrain;})
+          .attr('ng-click', 'hexClick($event)')
           .attr("transform", function(d, i) {
             var xPos = d.x*hexWidth-hexWidth/2;
             if(d.y%2!=0){xPos+=hexWidth/2};
@@ -46,12 +51,14 @@ ucDirectives.directive('mapDrawer', function(){
             if(d.y>0){yPos-=hexVerticalOffset*d.y};
             if(d.y<0){yPos+=hexVerticalOffset*Math.abs(d.y)};
             return "translate(" + d3.round(xPos) + ',' + d3.round(yPos) + ")";
+          })
+          .call(function(){
+            console.log(this[0]);
+            $compile(this[0])(scope);
           });
 
         hex.append('polygon')
-          .attr('data-x', function(d){return d.x;})
-          .attr('data-y', function(d){return d.y;})
-          .attr('data-terrain', function(d){return d.terrain;})
+          .classed('hexagon', true)
           .attr('points', function(){
             var hexagonString="";
             for(i=0;i<hexagon.length;i++){
@@ -122,6 +129,15 @@ ucDirectives.directive('mapDrawer', function(){
         $('#map-holder-svg').attr('width', window.innerWidth).attr('height', window.innerHeight);
         positionTheMap();
       });
+    }
+  }
+}]);
+
+ucDirectives.directive('clickthehex', function(){
+  return {
+    restrict: "A",
+    link: function(scope, elem, attrs){
+      console.log('test2');
     }
   }
 });

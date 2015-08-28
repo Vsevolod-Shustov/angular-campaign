@@ -6,7 +6,7 @@ function isInt(value) {
   return !isNaN(value) && parseInt(value) == value;
 }
 
-ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($scope, LocalStorageService){
+ucControllers.controller('MapCtrl', ['$scope', '$compile', 'LocalStorageService', function($scope, $compile, LocalStorageService){
   $scope.text = 'Hello World!';
   $scope.globalMap = {};
   $scope.globalMap = LocalStorageService.load('globalMap');
@@ -57,10 +57,10 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
     $scope.globalMap = LocalStorageService.load('globalMap');
   };
   
-  //get hex coordinates when hex is clicked
-  $scope.hexClick = function(x, y) {
-    console.log("Hey, don't poke hexes!");
-    $scope.currentHex = $scope.globalMap[x + " " + y];
+  //click hex
+  $scope.hexClick = function($event) {
+    //console.log(jQuery($event.currentTarget).attr('class'));
+    $scope.currentHex = $scope.globalMap[jQuery($event.currentTarget).data('x') + " " + jQuery($event.currentTarget).data('y')];
     $scope.hexForm.x = $scope.currentHex.x;
     $scope.hexForm.y = $scope.currentHex.y;
     $scope.hexForm.terrain = $scope.currentHex.terrain;
