@@ -4,13 +4,19 @@ ucDirectives.directive('mapDrawer', ['$compile', function($compile){
   return {
     restrict: "A",
     link: function(scope, elem, attrs){
-      console.log(scope.globalMap);
+      //console.log(scope.globalMap);
       var svgWidth = window.innerWidth;
       var svgHeight = window.innerHeight;
+      
+      //hex graphics dimensions
       var hexWidth = 150;
       var hexHeight = 2*hexWidth/Math.sqrt(3);
       var hexSideLength = hexHeight*Math.sin(Math.PI/6);
       var hexVerticalOffset = (hexHeight-hexSideLength)/2;
+      var hexMargin = 4;
+      //var hexVerticalOffset = hexVerticalOffset + hexMargin;
+      
+      //hex polygon points
       var hexagon = [
         {"x":hexWidth/2, "y":0},
         {"x":hexWidth, "y":(hexHeight-hexSideLength)/2},
@@ -19,23 +25,24 @@ ucDirectives.directive('mapDrawer', ['$compile', function($compile){
         {"x":0, "y":hexHeight/2+(hexHeight-hexSideLength)/2},
         {"x":0, "y":(hexHeight-hexSideLength)/2}
       ];
+      
       var svg = d3.select('#map')
-        .append('svg')
+        .append('svg') //covers whole viewport
         .attr('width', svgWidth)
         .attr('height', svgHeight)
         .attr('id', 'map-holder-svg');
-      var mapholder = svg.append('g')
+      var mapholder = svg.append('g') //contains hexes, doesn't cover whole viewport
         .attr('id', 'map-holder-g');
-      scope.firstload = true
+      scope.firstload = true;
         
       scope.$watch('globalMap',function(newMap){
-        mapholder.selectAll('*').remove();
+        scope.deleteBlankHexes();
+        scope.addBlankHexes();
         var newMapArr = Object.keys(newMap).map(function (key) {return newMap[key]});
+        mapholder.selectAll('*').remove();
         var hex = mapholder.selectAll("g.hex")
           .data(newMapArr);
-        //scope.deleteBlankHexes();
-        //scope.addBlankHexes();
-        
+
         hex.enter()
           .append("g")
           .classed('hex', true)
@@ -45,9 +52,9 @@ ucDirectives.directive('mapDrawer', ['$compile', function($compile){
           .attr('data-terrain', function(d){return d.terrain;})
           .attr('ng-click', 'hexClick($event)')
           .attr("transform", function(d, i) {
-            var xPos = d.x*hexWidth-hexWidth/2;
-            if(d.y%2!=0){xPos+=hexWidth/2};
-            var yPos = d.y*hexHeight;
+            var xPos = d.x*hexWidth-hexWidth/2+hexMargin*d.x;
+            if(d.y%2!=0){xPos+=hexWidth/2;xPos+=hexMargin/2};
+            var yPos = d.y*hexHeight+hexMargin*d.y;
             if(d.y>0){yPos-=hexVerticalOffset*d.y};
             if(d.y<0){yPos+=hexVerticalOffset*Math.abs(d.y)};
             return "translate(" + d3.round(xPos) + ',' + d3.round(yPos) + ")";
@@ -56,7 +63,7 @@ ucDirectives.directive('mapDrawer', ['$compile', function($compile){
             console.log(this[0]);
             $compile(this[0])(scope);
           });
-
+ 
         hex.append('polygon')
           .classed('hexagon', true)
           .attr('points', function(){
@@ -70,6 +77,11 @@ ucDirectives.directive('mapDrawer', ['$compile', function($compile){
             hexagonString = hexagonString.substr(0, hexagonString.length - 1);
             return hexagonString;
           });
+        
+        hex.append('image')
+          .attr('xlink:href', function(d){if(d.terrain!='empty'){return 'img/'+d.terrain+'.svg'}})
+          .attr('width', hexWidth)
+          .attr('height', hexHeight);
         
         hex.append('text')
           .attr("x", hexWidth/2)

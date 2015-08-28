@@ -42,7 +42,11 @@ ucControllers.controller('MapCtrl', ['$scope', '$compile', 'LocalStorageService'
     hex["x"] = $scope.hexForm.x;
     hex["y"] = $scope.hexForm.y;
     var hexToDelete = hex["x"] + " " + hex["y"];
-    delete $scope.globalMap[hexToDelete];
+    if($scope.globalMap[hexToDelete].terrain == 'empty'){
+      console.log("Can't delete empty hexes");
+    } else {
+      delete $scope.globalMap[hexToDelete];
+    };
     //$scope.drawMap();
   };
   
