@@ -16,5 +16,8 @@
     "jasmine": "*",
     "karma": "*",
     "d3": "3.5.x"
+  },
+  "resolutions": {
+    "angular": "1.2.x"
   }
 }
