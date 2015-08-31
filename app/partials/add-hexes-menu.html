@@ -1,47 +1,22 @@
 <form class="form-horizontal" id="add-hexes-form" role="form">
-  <div class="form-group">
-    <div class="col-sm-6">
-      <input type="number" class="form-control" id="x-coord" ng-model="hexForm.x">
-    </div>
-    <div class="col-sm-6">
-      <input type="number" class="form-control" id="y-coord" ng-model="hexForm.y">
-    </div>
-    <div class="col-sm-12">
-      <select class="form-control" id="terrain" ng-model="hexForm.terrain">
-        <option value="plains">Plains</option>
-        <option value="hills">Hills</option>
-        <option value="forest">Forest</option>
-        <option value="swamp">Swamp</option>
-        <option value="mountain">Mountain</option>
-      </select>
-    </div> 
-  </div>
-  
-  <div class="form-group">
-    <div class="col-sm-12">
-      <button type="submit" id="add-hexes-btn" class="btn btn-primary" ng-click="addHex()">Add Hex</button>
-    </div>
-    <div class="col-sm-12" id="add-hexes-message"></div>
-    <div class="col-sm-12">
-      <button type="submit" id="save-map-btn" class="btn btn-success" ng-click="saveMap()">Save Map Data</button>
-    </div>
-    <div class="col-sm-12">
-      <button type="submit" id="load-map-btn" class="btn btn-warning" ng-click="loadMap()">Load Map</button>
-    </div>
-    <div class="col-sm-12">
-      <button type="submit" id="delete-hexes-btn" class="btn btn-danger" ng-click="deleteHex()">Delete Hex</button>
-    </div>
-    <div class="col-sm-12">
-      <button type="submit" id="clear-map-btn" class="btn btn-danger" ng-click="clearMap()">Clear Map</button>
-    </div>
-    <div class="col-sm-12">
-      <button type="submit" id="clear-save-btn" class="btn btn-danger" ng-click="clearSave()">Clear Save Data</button>
-    </div>
-    <!--<div class="col-sm-12">
-      <button type="submit" class="btn btn-primary" ng-click="addBlankHexes()">Add Blank Hexes</button>
-    </div>
-    <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary" ng-click="deleteBlankHexes()">Delete Blank Hexes</button>
-    </div>-->
+  <input type="number" class="form-control" id="x-coord" placeholder="x" ng-model="hexForm.x">
+  <input type="number" class="form-control" id="y-coord" placeholder="y" ng-model="hexForm.y">
+  <select class="form-control" id="terrain" ng-model="hexForm.terrain">
+    <option value="plains">Plains</option>
+    <option value="hills">Hills</option>
+    <option value="forest">Forest</option>
+    <option value="swamp">Swamp</option>
+    <option value="mountain">Mountain</option>
+  </select> 
+    
+  <button type="submit" id="add-hexes-btn" class="btn btn-primary" ng-click="addHex()">Add Hex</button>
+
+  <div id="add-hexes-message"></div>
+
+  <button type="submit" id="save-map-btn" class="btn btn-success" ng-click="saveMap()">Save Map Data</button>
+  <button type="submit" id="load-map-btn" class="btn btn-warning" ng-click="loadMap()">Load Map</button>
+  <button type="submit" id="delete-hexes-btn" class="btn btn-danger" ng-click="deleteHex()">Delete Hex</button>
+  <button type="submit" id="clear-map-btn" class="btn btn-danger" ng-click="clearMap()">Clear Map</button>
+  <button type="submit" id="clear-save-btn" class="btn btn-danger" ng-click="clearSave()">Clear Save Data</button>
   </div>
 </form>
