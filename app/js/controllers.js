@@ -6,7 +6,7 @@ function isInt(value) {
   return !isNaN(value) && parseInt(value) == value;
 }
 
-ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($scope, LocalStorageService){
+ucControllers.controller('MapCtrl', ['$scope', '$compile', 'LocalStorageService', function($scope, $compile, LocalStorageService){
   $scope.text = 'Hello World!';
   $scope.globalMap = {};
   $scope.globalMap = LocalStorageService.load('globalMap');
@@ -19,16 +19,20 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
       $scope.drawMap();
     }
   );*/
-  $scope.$watch('globalMap',function(){$scope.drawMap()},true);
+  //$scope.$watch('globalMap',function(){$scope.drawMap()},true);
   
   //hex manipulation
   //add hex
   $scope.addHex = function() {
     var hex = {};
-    hex["x"] = $scope.hexForm.x;
-    hex["y"] = $scope.hexForm.y;
-    hex["terrain"] = $scope.hexForm.terrain;
-    $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
+    if(!$scope.hexForm.terrain) {
+      console.log('Hex must have terrain.');
+    } else {
+      hex["x"] = $scope.hexForm.x;
+      hex["y"] = $scope.hexForm.y;
+      hex["terrain"] = $scope.hexForm.terrain;
+      $scope.globalMap[hex["x"] + " " + hex["y"]] = hex;
+    };
     //$scope.drawMap();
   };
   
@@ -38,7 +42,11 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
     hex["x"] = $scope.hexForm.x;
     hex["y"] = $scope.hexForm.y;
     var hexToDelete = hex["x"] + " " + hex["y"];
-    delete $scope.globalMap[hexToDelete];
+    if($scope.globalMap[hexToDelete].terrain == 'empty'){
+      console.log("Can't delete empty hexes");
+    } else {
+      delete $scope.globalMap[hexToDelete];
+    };
     //$scope.drawMap();
   };
   
@@ -53,9 +61,10 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
     $scope.globalMap = LocalStorageService.load('globalMap');
   };
   
-  //get hex coordinates when hex is clicked
-  $scope.hexClick = function(x, y) {
-    $scope.currentHex = $scope.globalMap[x + " " + y];
+  //click hex
+  $scope.hexClick = function($event) {
+    //console.log(jQuery($event.currentTarget).attr('class'));
+    $scope.currentHex = $scope.globalMap[jQuery($event.currentTarget).data('x') + " " + jQuery($event.currentTarget).data('y')];
     $scope.hexForm.x = $scope.currentHex.x;
     $scope.hexForm.y = $scope.currentHex.y;
     $scope.hexForm.terrain = $scope.currentHex.terrain;
@@ -123,7 +132,7 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
   };
   
   //draw the map
-  $scope.drawMap = function() {
+  /*$scope.drawMap = function() {
     $scope.deleteBlankHexes();
     $scope.addBlankHexes();
     //variables for determining map size
@@ -180,5 +189,5 @@ ucControllers.controller('MapCtrl', ['$scope', 'LocalStorageService', function($
     };
     var viewOffsetY = (Math.abs(minY))*(hexHeight - hexVerticalOffset) + hexHeight/2;
     jQuery('#hexes-anchor').css('top', viewOffsetY).css('left', viewOffsetX);
-  };
+  };*/
 }]);

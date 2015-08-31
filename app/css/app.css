@@ -16,7 +16,7 @@ body {
 
 
 
-.hex {
+/*.hex {
   width:152px;
   height:172px;
   position:absolute;
@@ -29,31 +29,44 @@ body {
   text-align:center;
   padding-top:10px;
   width:100%;
-}
-.hex canvas {
+}*/
+/*.hex canvas {
   position:absolute;
   top:0;
   left:0;
   width:152px;
   height:172px;
+}*/
+.hex polygon {
+  stroke:black;
+  stroke-width:1;
+  fill:white;
 }
-.hex.plains {
-  background:url('../img/plains.png') center center no-repeat;
+.hex.empty polygon {
+  stroke:#ccc;
+  stroke-width:1;
+  fill:white;
 }
-.hex.forest {
-  background:url('../img/forest.png') center center no-repeat;
+.hex.empty text {
+  fill:#ccc;
 }
-.hex.hills {
-  background:url('../img/hills.png') center center no-repeat;
+.hex.plains polygon {
+  fill:#e7f79c;
 }
-.hex.mountain {
-  background:url('../img/mountain.png') center center no-repeat;
+.hex.forest polygon {
+  fill:#7aad43;
 }
-.hex.swamp {
-  background:url('../img/swamp.png') center center no-repeat;
+.hex.hills polygon {
+  fill:#c3d263;
 }
-.hex.empty {
-  background:url('../img/empty.png') center center no-repeat;
+.hex.mountain polygon {
+  fill:#b28000;
+}
+.hex.swamp polygon {
+  fill:#addea5;
+}
+.hex.empty polygon {
+  
 }
 .hex-note {
   position:absolute;

@@ -14,6 +14,10 @@
     "jquery-ui": "1.10.x",
     "jquery.kinetic": "2.x.x",
     "jasmine": "*",
-    "karma": "*"
+    "karma": "*",
+    "d3": "3.5.x"
+  },
+  "resolutions": {
+    "angular": "1.2.x"
   }
 }
